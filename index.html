@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>BMS Preview Maker</title>
+    <script src="bmsPreviewMaker.js"></script>
+</head>
+
+<body>
+    <h1>BMS Preview Maker</h1>
+    <section id="input">
+        <input id="selectInput" type="button" value="Select BMS FIle" onclick="showSelectInput()"/>
+        <label for="selectInput" id="selectedInputDisplay">* Not selected *</label>
+        <br>
+        <input id="selectOutput" type="button" value="Select Output Folder" onclick="showSelectOutput()"/>
+        <label for="selectOutput" id="selectedOutputDisplay">* Not selected *</label>
+
+        <hr>
+
+        <label for="previewBegin">Preview Begin : </label>
+        <input id="previewBegin" type="number" value="16" onchange="previewBeginChange()"/>
+        <span id="previewBeginUnit">(Measure #)</span>
+
+        <br>
+
+        <label for="previewLength">Preview Length : </label>
+        <input id="previewLength" type="number" value="9.5" onchange="previewLengthChange()"/>
+        <span id="previewLengthUnit">(Measures)</span>
+
+        <hr>
+
+        <button id="makePreviewButton" onclick="makePreview()">Make Preview</button>
+
+    </section>
+    <section id="status">
+        <p id="statusParagraph"></p>
+    </section>
+</body>
+
+</html>

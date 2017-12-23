@@ -1,0 +1,32 @@
+{
+  "name": "bms-preview-maker",
+  "productName": "BMS Preview Maker",
+  "version": "0.1.0",
+  "description": "Make BMS preview audio from a .bms file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "electron": "./node_modules/.bin/electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5argon/bms-preview-maker.git"
+  },
+  "keywords": [
+    "bms"
+  ],
+  "author": "5argon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/5argon/bms-preview-maker/issues"
+  },
+  "homepage": "https://github.com/5argon/bms-preview-maker#readme",
+  "devDependencies": {
+    "electron": "^1.7.10",
+    "electron-rebuild": "^1.6.0"
+  },
+  "dependencies": {
+    "bms": "^2.0.0",
+    "bms-renderer": "git+https://github.com/5argon/bms-renderer.git#bms-preview-maker"
+  }
+}
