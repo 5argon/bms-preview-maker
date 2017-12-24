@@ -39,6 +39,16 @@ worker.onmessage = function(e) {
     enableAllForms()
 }
 
+worker.onerror = function(e) {
+    console.log("Error!")
+    console.log(e.message)
+    console.log(e.filename)
+    console.log(e.lineno)
+    document.getElementById("statusParagraph").innerText = "Error!"
+    document.getElementById("status").className = ""
+    enableAllForms()
+}
+
 function disableAllForms()
 {
     document.getElementById("selectInput").setAttribute("disabled","true")

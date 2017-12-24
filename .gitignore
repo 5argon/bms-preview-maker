@@ -1,1 +1,4 @@
 node_modules
+dist
+website/bms-preview-maker/*.dmg
+website/bms-preview-maker/*.exe
