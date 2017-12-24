@@ -5,16 +5,40 @@
     <meta charset="UTF-8">
     <title>BMS Preview Maker</title>
     <script src="bmsPreviewMaker.js"></script>
+    <link rel="stylesheet" href="./css/uikit.min.css"/>
 </head>
 
 <body>
-    <h1>BMS Preview Maker</h1>
+    <style>
+        .headGradient {
+
+background: rgba(51,120,232,1);
+background: -moz-linear-gradient(-45deg, rgba(51,120,232,1) 0%, rgba(117,255,221,1) 64%, rgba(255,255,255,1) 88%, rgba(255,255,255,1) 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(51,120,232,1)), color-stop(64%, rgba(117,255,221,1)), color-stop(88%, rgba(255,255,255,1)), color-stop(100%, rgba(255,255,255,1)));
+background: -webkit-linear-gradient(-45deg, rgba(51,120,232,1) 0%, rgba(117,255,221,1) 64%, rgba(255,255,255,1) 88%, rgba(255,255,255,1) 100%);
+background: -o-linear-gradient(-45deg, rgba(51,120,232,1) 0%, rgba(117,255,221,1) 64%, rgba(255,255,255,1) 88%, rgba(255,255,255,1) 100%);
+background: -ms-linear-gradient(-45deg, rgba(51,120,232,1) 0%, rgba(117,255,221,1) 64%, rgba(255,255,255,1) 88%, rgba(255,255,255,1) 100%);
+background: linear-gradient(135deg, rgba(51,120,232,1) 0%, rgba(117,255,221,1) 64%, rgba(255,255,255,1) 88%, rgba(255,255,255,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3378e8', endColorstr='#ffffff', GradientType=1 );
+
+   
+        }
+    </style>
+    <div class="uk-container">
+    <div>
+        <h1 class="headGradient uk-margin-top uk-margin-remove-bottom">BMS Preview Maker</h1>
+    </div>
+    <h2 class="uk-text-small uk-margin-remove-top uk-margin-bottom">Version 0.1.0 | BMS Advent Calendar 2017</h2>
     <section id="input">
-        <input id="selectInput" type="button" value="Select BMS FIle" onclick="showSelectInput()"/>
-        <label for="selectInput" id="selectedInputDisplay">* Not selected *</label>
+        <input class="uk-button uk-button-default" id="selectInput" type="button" value="Select BMS FIle" onclick="showSelectInput()"/>
         <br>
-        <input id="selectOutput" type="button" value="Select Output Folder" onclick="showSelectOutput()"/>
-        <label for="selectOutput" id="selectedOutputDisplay">* Not selected *</label>
+        <code id="selectedInputDisplay">* Not selected *</code>
+
+        <br>
+
+        <input class="uk-button uk-button-default" id="selectOutput" type="button" value="Select Output Folder" onclick="showSelectOutput()"/>
+        <br>
+        <code id="selectedOutputDisplay">* Not selected *</code>
 
         <hr>
 
@@ -30,12 +54,20 @@
 
         <hr>
 
-        <button id="makePreviewButton" onclick="makePreview()">Make Preview</button>
+        <button class="uk-button uk-button-primary" id="makePreviewButton" onclick="makePreview()">Make preview.ogg</button>
 
     </section>
     <section id="status">
         <p id="statusParagraph"></p>
     </section>
+
+    <footer class="uk-text-center">
+        <small>
+        使い方 : <a href="http://5argon.info/bms-preview-maker" target="_blank">ホームページ</a><br>
+        バグレポートと問い合わせは <a href="https://twitter.com/5argondesu" target="_blank">@5argondesu</a> または <a href="http://github.com/5argon/bms-preview-maker" target="_blank">GitHub ページ</a>
+        </small>
+    </footer>
+</div>
 </body>
 
 </html>

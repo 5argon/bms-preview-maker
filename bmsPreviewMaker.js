@@ -1,8 +1,18 @@
-const bmsRenderer = require('bms-renderer')
 const { dialog } = require('electron').remote
 const fs = require('fs')
 const path = require('path')
 const bms = require('bms')
+
+const ogg = require('ogg').Encoder()
+const vorbis = require('vorbis').Encoder()
+
+const shell = require('electron').shell
+document.addEventListener('click', function (event) {
+    if (event.target.tagName === 'A' && event.target.href.startsWith('http')) {
+        event.preventDefault()
+        shell.openExternal(event.target.href)
+    }
+})
 
 let selectedBms;
 let selectedOutputFolder;
@@ -11,6 +21,41 @@ let ableToMakePreview = false;
 let previewBegin; 
 let previewLength;
 
+let worker = new Worker("worker.js")
+worker.onmessage = function(e) {
+    //We can't use fs in a WebWorker
+
+    console.log("Writing OGG..")
+
+    vorbis.pipe(ogg.stream())
+    ogg.pipe(fs.createWriteStream(e.data[1]))
+    vorbis.write(Buffer.from(e.data[0]), (err) => {vorbis.end()})
+
+    //TODO : add error handling to close stream properly + report error
+
+    console.log("OK!")
+    document.getElementById("statusParagraph").innerText = "Done"
+    document.getElementById("status").className = ""
+    enableAllForms()
+}
+
+function disableAllForms()
+{
+    document.getElementById("selectInput").setAttribute("disabled","true")
+    document.getElementById("selectOutput").setAttribute("disabled","true")
+    document.getElementById("previewBegin").setAttribute("disabled","true")
+    document.getElementById("previewLength").setAttribute("disabled","true")
+    document.getElementById("makePreviewButton").setAttribute("disabled","true")
+}
+
+function enableAllForms()
+{
+    document.getElementById("selectInput").disabled = false
+    document.getElementById("selectOutput").disabled = false
+    document.getElementById("previewBegin").disabled = false
+    document.getElementById("previewLength").disabled = false
+    checkAbleToMakePreview()
+}
 
 function checkAbleToMakePreview()
 {
@@ -29,7 +74,6 @@ function checkAbleToMakePreview()
     {
         previewButton.setAttribute("disabled","true")
     }
-    console.log(ableToMakePreview)
 }
 
 function updatePreviewRange()
@@ -97,11 +141,12 @@ function makePreview()
     checkAbleToMakePreview()
     if(ableToMakePreview)
     {
+        disableAllForms()
         document.getElementById("statusParagraph").innerText = "WORKING !!"
+        document.getElementById("status").className = "shakeAnimation"
 
-        yield bmsRenderer.render(selectedBms.path, selectedOutputFolder + "/" + previewFileName, selectedBms.measureToSeconds(previewBegin), selectedBms.measureToSeconds(previewLength))().done()
+        worker.postMessage([selectedBms.path, selectedOutputFolder + "/" + previewFileName, selectedBms.measureToSeconds(previewBegin), selectedBms.measureToSeconds(previewLength)])
 
-        document.getElementById("statusParagraph").innerText = "Done"
     }
 }
 
