@@ -17,8 +17,12 @@
     "mac": {
       "category": "public.app-category.utilities"
     },
-    "asar":false,
-    "extraFiles": ["libsndfile.dll"]
+    "win":{
+      "extraFiles": [
+        "libsndfile.dll"
+      ],
+      "asar": false
+    }
   },
   "repository": {
     "type": "git",
