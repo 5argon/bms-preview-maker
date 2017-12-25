@@ -22,21 +22,26 @@ let previewBegin;
 let previewLength;
 
 let worker = new Worker("worker.js")
-worker.onmessage = function(e) {
-    //We can't use fs in a WebWorker
+worker.onmessage = function (e) {
+    if (e.data[0] == "progress") {
+        document.getElementById("statusParagraph").innerText = e.data[1]
+    }
+    else {
+        //We can't use fs in a WebWorker
 
-    console.log("Writing OGG..")
+        console.log("Writing OGG..")
 
-    vorbis.pipe(ogg.stream())
-    ogg.pipe(fs.createWriteStream(e.data[1]))
-    vorbis.write(Buffer.from(e.data[0]), (err) => {vorbis.end()})
+        vorbis.pipe(ogg.stream())
+        ogg.pipe(fs.createWriteStream(e.data[1]))
+        vorbis.write(Buffer.from(e.data[0]), (err) => { vorbis.end() })
 
-    //TODO : add error handling to close stream properly + report error
+        //TODO : add error handling to close stream properly + report error
 
-    console.log("OK!")
-    document.getElementById("statusParagraph").innerText = "Done"
-    document.getElementById("status").className = ""
-    enableAllForms()
+        console.log("OK!")
+        document.getElementById("statusParagraph").innerText = "Done!!"
+        document.getElementById("status").className = ""
+        enableAllForms()
+    }
 }
 
 worker.onerror = function(e) {

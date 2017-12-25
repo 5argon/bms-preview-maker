@@ -6,8 +6,10 @@
   "main": "index.js",
   "scripts": {
     "electron": "./node_modules/.bin/electron .",
+    "rebuild": "electron-rebuild",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --mac --win",
+    "distMac": "electron-builder --mac",
+    "distWin": "electron-builder --win",
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
@@ -31,7 +33,8 @@
   "homepage": "https://github.com/5argon/bms-preview-maker#readme",
   "devDependencies": {
     "electron": "^1.7.10",
-    "electron-builder": "^19.49.2"
+    "electron-builder": "^19.49.2",
+    "electron-rebuild": "^1.6.0"
   },
   "dependencies": {
     "bms": "^2.0.0",
