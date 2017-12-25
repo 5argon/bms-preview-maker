@@ -3,8 +3,9 @@ const fs = require('fs')
 const path = require('path')
 const bms = require('bms')
 
-const ogg = require('ogg').Encoder()
-const vorbis = require('vorbis').Encoder()
+const ogg = require('ogg')
+const vorbis = require('vorbis')
+
 
 const shell = require('electron').shell
 document.addEventListener('click', function (event) {
@@ -22,26 +23,47 @@ let previewBegin;
 let previewLength;
 
 let worker = new Worker("worker.js")
+
 worker.onmessage = function (e) {
-    if (e.data[0] == "progress") {
-        document.getElementById("statusParagraph").innerText = e.data[1]
-    }
-    else {
-        //We can't use fs in a WebWorker
+	if (e.data[0] == "progress") {
+		document.getElementById("statusParagraph").innerText = e.data[1]
+	}
+	else {
+		//We can't use fs in a WebWorker
 
-        console.log("Writing OGG..")
+		console.log("Writing OGG..")
+		document.getElementById("statusParagraph").innerText = "Writing OGG..."
 
-        vorbis.pipe(ogg.stream())
-        ogg.pipe(fs.createWriteStream(e.data[1]))
-        vorbis.write(Buffer.from(e.data[0]), (err) => { vorbis.end() })
+		var oggE = new ogg.Encoder()
+		var vorbisE = new vorbis.Encoder()
 
-        //TODO : add error handling to close stream properly + report error
 
-        console.log("OK!")
-        document.getElementById("statusParagraph").innerText = "Done!!"
-        document.getElementById("status").className = ""
-        enableAllForms()
-    }
+		var writeStream = fs.createWriteStream(e.data[1])
+		writeStream.on('finish', ()=>{
+			console.log("OK!")
+			document.getElementById("statusParagraph").innerText = "Done!!"
+			document.getElementById("status").className = ""
+			enableAllForms()
+		})
+
+		vorbisE.pipe(oggE.stream())
+		oggE.pipe(writeStream)
+
+		const maxSlice = 2000000 //21... something explodes the vorbis encoder
+		var writeFunctions = []
+
+		for(var i = 0; i < e.data[0].length; i += maxSlice)
+		{
+			let nextSlice = Math.min(i + maxSlice, e.data[0].length)
+			let debugText = "Writing " + i + " to " + nextSlice;
+			console.log(debugText)
+			vorbisE.write( Buffer.from(e.data[0].slice(i,nextSlice)))
+		}
+
+		vorbisE.end()
+
+		//TODO : add error handling to close stream properly + report error
+	}
 }
 
 worker.onerror = function(e) {

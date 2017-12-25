@@ -11,7 +11,7 @@ function createWindow() {
     win = new BrowserWindow({
         title: "BMS Preview Maker",
         width: 800, 
-        height: 550, 
+        height: 580, 
         webPreferences: {
             nodeIntegrationInWorker: true
         }
@@ -25,7 +25,7 @@ function createWindow() {
     }))
 
     // Open the DevTools.
-    //win.webContents.openDevTools()
+    win.webContents.openDevTools()
 
     // Emitted when the window is closed.
     win.on('closed', () => {

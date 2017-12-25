@@ -40,6 +40,8 @@
     "bms": "^2.0.0",
     "bms-renderer": "git+https://github.com/5argon/bms-renderer.git#bms-preview-maker",
     "ogg": "^1.2.5",
+    "stream-buffers": "^3.0.1",
+    "streamifier": "^0.1.1",
     "vorbis": "git+https://github.com/doomjs/node-vorbis.git"
   }
 }
