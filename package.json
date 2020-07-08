@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/5argon/bms-preview-maker#readme",
   "devDependencies": {
-    "electron": "^1.7.10",
+    "electron": "^7.2.4",
     "electron-builder": "^19.49.2",
     "electron-rebuild": "^1.6.0"
   },
